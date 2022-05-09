@@ -1,13 +1,14 @@
 import { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './timer.css';
+import ButtonGroup from './ButtonGroup';
 
 function App() {
 
   const defaultSeconds = 60
   const [seconds, setSeconds] = useState(defaultSeconds)
-  const [showStartBtn, setShowStartBtn] = useState(true)
-  const [showResumeBtn, setShowResumeBtn] = useState(false)
+  const [isTimerRunning, setisTimerRunning] = useState(false)
+  const [isTimerPaused, setisTimerPaused] = useState(false)
 
   const timer = useRef
 
@@ -22,12 +23,12 @@ function App() {
       getSecondsRemaining()
     }, 1000)
 
-    setShowStartBtn(false)
+    setisTimerRunning(true)
   }
 
   const handleClickPause = () => {
     clearInterval(timer.current)
-    setShowResumeBtn(true)
+    setisTimerPaused(true)
   }
 
   const handleClickResume = () => {
@@ -35,14 +36,14 @@ function App() {
       getSecondsRemaining()
     }, 1000)
 
-    setShowResumeBtn(false)
+    setisTimerPaused(false)
   }
 
   const handleClickReset = () => {
     clearInterval(timer.current)
     setSeconds(defaultSeconds)
-    setShowStartBtn(true)
-    setShowResumeBtn(false)
+    setisTimerRunning(false)
+    setisTimerPaused(false)
   }
 
   return (
@@ -70,31 +71,22 @@ function App() {
           <div className='col-12'>
             <p>Good evening, Hutomo</p>
 
+            <div className='row mb-2'></div>
+
             <ul className="list-group">
-              <li className="list-group-item">
+              <li className="list-group-item p-3">
                 <p>Push Up</p>
                 <h1>{seconds}</h1>
-                {
-                  showStartBtn ?
-                    (
-                      <div>
-                        <button type="button" className="btn btn-success" onClick={handleClickStart}>Start</button>
-                      </div>
-                    ) :
-                    (
-                      <div>
-                        { showResumeBtn ? 
-                            (
-                              <button type="button" className="btn btn-primary me-3" onClick={handleClickResume}>Resume</button>
-                            ) :
-                            (
-                              <button type="button" className="btn btn-warning me-3" onClick={handleClickPause}>Pause</button>
-                            )
-                        }
-                        <button type="button" className="btn btn-danger me-3" onClick={handleClickReset}>Reset</button>
-                      </div>
-                    )
-                }
+
+                <ButtonGroup
+                  isTimerRunning={isTimerRunning}
+                  isTimerPaused={isTimerPaused}
+                  handleClickStart={handleClickStart}
+                  handleClickResume={handleClickResume}
+                  handleClickPause={handleClickPause}
+                  handleClickReset={handleClickReset}
+                />
+
               </li>
             </ul>
           </div>
