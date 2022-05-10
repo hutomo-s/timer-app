@@ -104,6 +104,21 @@ function App() {
     modal.hide()
   }
 
+  const handleCloseModal = () => {
+
+    const ss = Math.floor(configuredSeconds % 60)
+    const mm = Math.floor((configuredSeconds / 60) % 60)
+
+    // reset form data using latest updated data
+    setFormData({
+      timerName: timerName,
+      totalMinutes: mm,
+      totalSeconds: ss,
+    })
+    
+    modal.hide()
+  }
+
   return (
     <>
       <nav className='sticky-top shadow-sm bg-white'>
@@ -175,46 +190,46 @@ function App() {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Edit Timer</h5>
-              <button type="button" className="btn-close" onClick={() => modal.hide()} aria-label="Close"></button>
+              <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                <div class="mb-3">
-                  <label class="form-label">Timer Name</label>
-                  <input type="text" class="form-control" aria-describedby="Timer Name" 
+                <div className="mb-3">
+                  <label className="form-label">Timer Name</label>
+                  <input type="text" className="form-control" aria-describedby="Timer Name" 
                     value={formData.timerName}
                     onChange={(e) => setFormData({...formData, timerName: e.target.value})} 
                   />
                 </div>
-                <div class="row mb-3">
+                <div className="row mb-3">
                   <div className="col-6">
-                    <label class="form-label">Minutes</label>
-                    <select class="form-select"
+                    <label className="form-label">Minutes</label>
+                    <select className="form-select"
                       aria-label="Minutes"
                       value={formData.totalMinutes}
                       onChange={(e) => setFormData({...formData, totalMinutes: e.target.value})}>
-                      {optionsMinute.map(om => {
-                        return <option value={om}>{om}</option>
+                      {optionsMinute.map((om, index) => {
+                        return <option key={index} value={om}>{om}</option>
                       })}
                     </select>
                   </div>
                   <div className="col-6">
-                    <label class="form-label">Seconds</label>
-                    <select class="form-select"
+                    <label className="form-label">Seconds</label>
+                    <select className="form-select"
                       aria-label="Seconds"
                       value={formData.totalSeconds}
                       onChange={(e) => setFormData({...formData, totalSeconds: e.target.value})}>
-                      {optionsSecond.map(os => {
-                        return <option value={os}>{os}</option>
+                      {optionsSecond.map((os, index) => {
+                        return <option key={index} value={os}>{os}</option>
                       })}
                     </select>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Update Timer Data</button>
+                <button type="submit" className="btn btn-primary">Update Timer Data</button>
               </form>
             </div>
             <div className="modal-footer d-none">
-              <button type="button" className="btn btn-secondary" onClick={() => modal.hide()}>Close</button>
+              <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
               <button type="button" className="btn btn-primary">Save changes</button>
             </div>
           </div>
