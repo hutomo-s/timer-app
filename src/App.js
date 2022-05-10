@@ -1,46 +1,65 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './timer.css';
 import ButtonGroup from './ButtonGroup';
 
 function App() {
 
-  const defaultSeconds = 60
+  const defaultSeconds = 121
   const [seconds, setSeconds] = useState(defaultSeconds)
+  const [timer, setTimer] = useState('')
   const [isTimerRunning, setisTimerRunning] = useState(false)
   const [isTimerPaused, setisTimerPaused] = useState(false)
+  const timerRef = useRef
 
-  const timer = useRef
+  useEffect(() => {
+    console.log('[useeffect] seconds', seconds);
 
-  const getSecondsRemaining = () => {
-    setSeconds((seconds) => {
-      return ((seconds > 0) && seconds - 1) || 0
-    })
-  }
+    const ss = Math.floor(seconds % 60)
+    const mm = Math.floor((seconds / 60) % 60)
+    
+    if(seconds >= 0) {
+      
+      const showSs = ss < 10 ? '0' + ss : ss
+      const showMm = mm < 10 ? '0' + mm : mm
+      setTimer(showMm + ":" + showSs)
+
+      if (seconds === 0)
+        clearInterval(timerRef.current)
+    }
+    
+  }, [seconds, timerRef]);
 
   const handleClickStart = () => {
-    timer.current = setInterval(() => {
-      getSecondsRemaining()
+
+    timerRef.current = setInterval(() => {
+      setSeconds((seconds) => {
+        console.log('[setSeconds] seconds', seconds)
+        return ((seconds > 0) && seconds - 1) || 0
+      })
     }, 1000)
 
     setisTimerRunning(true)
   }
 
   const handleClickPause = () => {
-    clearInterval(timer.current)
+    clearInterval(timerRef.current)
     setisTimerPaused(true)
   }
 
   const handleClickResume = () => {
-    timer.current = setInterval(() => {
-      getSecondsRemaining()
+    timerRef.current = setInterval(() => {
+      setSeconds((seconds) => {
+        console.log('[setSeconds] seconds', seconds)
+        return ((seconds > 0) && seconds - 1) || 0
+      })
     }, 1000)
 
     setisTimerPaused(false)
   }
 
   const handleClickReset = () => {
-    clearInterval(timer.current)
+    clearInterval(timerRef.current)
     setSeconds(defaultSeconds)
     setisTimerRunning(false)
     setisTimerPaused(false)
@@ -77,6 +96,7 @@ function App() {
               <li className="list-group-item p-3">
                 <p>Push Up</p>
                 <h1>{seconds}</h1>
+                <h1>{timer}</h1>
 
                 <ButtonGroup
                   isTimerRunning={isTimerRunning}

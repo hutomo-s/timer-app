@@ -1,3 +1,6 @@
+// reference
+// https://stackoverflow.com/questions/58847890/how-to-access-method-of-another-component-on-button-click-in-react
+
 function ButtonPauseResume(props) {
   if(!props.isTimerPaused) {
     return (
