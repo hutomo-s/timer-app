@@ -1,0 +1,8 @@
+1. reference for pass method to another component
+   https://stackoverflow.com/questions/58847890/how-to-access-method-of-another-component-on-button-click-in-react
+
+2. reference for bootstrap modal
+   https://dev.to/tefoh/use-bootstrap-5-in-react-2l4i
+
+3. reference for react form and hooks
+   https://dev.to/jleewebdev/using-the-usestate-hook-and-working-with-forms-in-react-js-m6b
